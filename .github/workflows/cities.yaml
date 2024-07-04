@@ -1,5 +1,5 @@
 on:
-
+  push:
   schedule:
     # every
     - cron: "0 0 */7 * *"
