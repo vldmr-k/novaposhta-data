@@ -21,7 +21,9 @@ jobs:
         run: |
             git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
-            git commit -a -m "Push updated getAreas.xml"
+            git add data/AddressGeneral/getAreas.xml
+            git commit -a -m "Update getAreas.xml"
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
