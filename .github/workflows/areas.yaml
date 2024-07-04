@@ -6,17 +6,16 @@ jobs:
     env:
       API_KEY: ${{ secrets.API_KEY }}
     steps:
-      # To use a script from the repository,
-      # you must check out the repository first
       - name: Checkout
         uses: actions/checkout@v2
-      # Now we can execute a babashka script from our
-      # repository
-      - name: babashka script
-        uses: tzafrirben/babashka-docker-action@v0.3
-        id: import_areas
+
+      - name: Install babashka
+        uses: just-sultanov/setup-babashka@v2
         with:
-          bb_src: tasks.clj
-          bb_args: areas
-      - name: Get the script output
+            version: '0.4.6'
+
+      - name: Import Areas
+        run: bb areas
+
+      - name: Check content
         run: cat data/getAreas.xml
