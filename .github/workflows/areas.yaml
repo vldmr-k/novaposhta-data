@@ -1,0 +1,22 @@
+on: [push]
+jobs:
+  import_areas:
+    runs-on: ubuntu-latest
+    name: Import Areas
+    environment:
+      API_KEY: ${{ secrets.API_KEY }}
+    steps:
+      # To use a script from the repository,
+      # you must check out the repository first
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Now we can execute a babashka script from our
+      # repository
+      - name: babashka script
+        uses: tzafrirben/babashka-docker-action@v0.3
+        id: bb_areas
+        with:
+          bb_src: tasks.clj
+          bb_args: areas
+      - name: Get the script output
+        run: cat data/getAreas.xml

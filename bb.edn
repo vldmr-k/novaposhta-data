@@ -1,0 +1,12 @@
+{:deps {babashka/babashka.curl {:mvn/version "0.1.2"}
+        org.clojure/data.csv {:mvn/version "1.1.0"}
+        org.clojure/data.xml {:mvn/version "0.2.0-alpha9"}
+        cheshire/cheshire {:mvn/version "5.13.0"}
+        com.taoensso/timbre {:mvn/version "6.5.0"}}
+ :paths ["."]
+ :tasks {areas {:task tasks/areas}
+         cities {:task tasks/cities}
+         settlements-areas {:task tasks/settlements-areas}
+         settlements {:task tasks/settlements}
+         warehouses {:task tasks/warehouses}
+         streets {:task tasks/streets}}}
