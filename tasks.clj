@@ -136,7 +136,7 @@
 ;;; Import Cities
 (defn cities []
   (common-import {:ModelName :AddressGeneral
-                  :CalledMethod :getCities :delay 10000}))
+                  :CalledMethod :getCities :delay 20000}))
 
 ;;; Import Settelments Areas
 (defn settlements-areas [] 
