@@ -17,5 +17,13 @@ jobs:
       - name: Import Areas
         run: bb areas
 
-      - name: Check content
-        run: cat data/AddressGeneral/getAreas.xml
+      - name: Commit files
+        run: |
+            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git commit -a -m "Push updated getAreas.xml"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
