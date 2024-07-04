@@ -20,7 +20,7 @@ jobs:
             version: '1.3.191'
 
       - name: run task
-        run: bb areas
+        run: bb cities
 
       - name: Commit files
         run: |
