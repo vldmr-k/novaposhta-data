@@ -18,4 +18,4 @@ jobs:
         run: bb areas
 
       - name: Check content
-        run: cat data/getAreas.xml
+        run: cat data/AddressGeneral/getAreas.xml
