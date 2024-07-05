@@ -27,7 +27,9 @@
 ;;; HTTP Requests
 (defn api-call [req-body]
   (let [ _ (tlog/debug "Begin request" req-body)
-         {:keys [body]} (curl/post base-url {:body req-body :connect-timeout 30})]
+         {:keys [body]} (curl/post base-url { :body req-body
+                                              :connect-timeout 30
+                                              :raw-args ["--retry" "5", "--retry-delay" "10"]})]
     (tlog/trace "Response body " body)
     body))
 
