@@ -149,7 +149,7 @@
 (defn settlements []
   (common-import {:ModelName :AddressGeneral
                   :CalledMethod :getSettlements
-                  :delay 10000}))
+                  :delay 15000}))
 
 ;;; Import Warehouse Types
 (defn warehouse-types []
