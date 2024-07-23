@@ -1,5 +1,4 @@
 on:
-  push:
   schedule:
     # every 15 days
     - cron: "0 10 */10 * *"

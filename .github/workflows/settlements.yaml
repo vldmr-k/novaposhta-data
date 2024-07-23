@@ -1,5 +1,4 @@
 on:
-  push: 
   schedule:
     # every 7 days
     - cron: "0 4 */7 * *"
