@@ -8,5 +8,6 @@
          cities {:task tasks/cities}
          settlements-areas {:task tasks/settlements-areas}
          settlements {:task tasks/settlements}
+         warehouse-types {:task tasks/warehouse-types}
          warehouses {:task tasks/warehouses}
          streets {:task tasks/streets}}}

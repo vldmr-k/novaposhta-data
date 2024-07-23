@@ -20,9 +20,11 @@
     0))
 
 
-(comment
-  (string? nil)
-  (substr-count nil "S"))
+(defn extract-totalCount [body]
+  (let [res (-> (re-find #"<totalCount>(\d+)</totalCount>" body) last)]
+    (cond 
+      (string? res) (Integer. res) 
+      :else -1)))
 
 ;;; HTTP Requests
 (defn api-call [req-body]
@@ -30,7 +32,7 @@
          {:keys [body]} (curl/post base-url { :body req-body
                                               :connect-timeout 30
                                               :raw-args ["--retry" "5", "--retry-delay" "10"]})]
-    (tlog/trace "Response body " body)
+    (tlog/debug "Response body " body)
     body))
 
 (defn body-builder [model method & {:keys [Limit Page CityRef]}]
@@ -55,7 +57,7 @@
 (defn rpc [model method & properties]
   (tlog/debug "properties" properties)
   (let [req-body (apply body-builder [model method (apply array-map properties)])] 
-    (tlog/debug "Request body" req-body)
+    (tlog/trace "Request body" req-body)
     (api-call  req-body)))
 
 (comment 
@@ -96,9 +98,11 @@
 
      (while @next?
        (tlog/debugf "Page %s" @page)
-       (let [items (-> (rpc ModelName CalledMethod :Page @page :CityRef CityRef) extract-items)
-             cnt (substr-count items "<item>")]
-
+       (let [resp (-> (rpc ModelName CalledMethod :Page @page :CityRef CityRef))
+             items (extract-items resp)
+             cnt (substr-count items "<item>")
+             totalCount (extract-totalCount resp)]
+         
          (when-not (nil? items)
                 ;;; write raw xml from api
            (.write writer items)
@@ -110,7 +114,7 @@
            (swap! counter + cnt))
 
               ;;; check if we had result, if resource is not empty, continue
-         (reset! next? (pos? cnt))
+         (reset! next? (and (pos? cnt) (> totalCount @counter)))
 
               ;;; Sleep, exclude throttling 
          (tlog/debugf "Sleep %sms" delay)
@@ -126,8 +130,8 @@
   (def items (extract-items response)) 
   items
   (rpc :AddressGeneral :getAreas :Page 1 :Limit 1)
-  (rpc :AddressGeneral :getSettlements :Limit 10 :Page 2)
-  )
+  (rpc :AddressGeneral :getSettlements :Limit 10 :Page 2))
+  
 
 ;;; Import areas
 (defn areas []
@@ -160,7 +164,7 @@
 (defn warehouses []
   (common-import {:ModelName :AddressGeneral
                   :CalledMethod :getWarehouses
-                  :delay 20000}))
+                  :delay 10000}))
 
 ;;; Import streets
 (defn streets []
@@ -200,6 +204,6 @@
 
   (common-import {:ModelName :AddressGeneral
                   :CalledMethod :getStreet
-                  :delay 20000})
+                  :delay 20000}))
 
-  )
+  

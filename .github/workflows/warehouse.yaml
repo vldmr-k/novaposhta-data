@@ -1,13 +1,13 @@
 on:
-  push: 
+  push:
   schedule:
-    # every 7 days
-    - cron: "0 4 */7 * *"
+    # every 5 days
+    - cron: "0 6 */5 * *"
 
 jobs:
   import_cities:
     runs-on: ubuntu-latest
-    name: Import Settlement Areas
+    name: Import Settlements
     env:
       API_KEY: ${{ secrets.API_KEY }}
     steps:
@@ -18,24 +18,24 @@ jobs:
         uses: just-sultanov/setup-babashka@v2
         with:
           version: '1.3.191'
-
+      
       - name: git config
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-      - name: bb settlements-areas
+      - name: bb warehouse-types
         run: |
-          bb settlements-areas
-          git add data/AddressGeneral/getSettlementAreas.xml
-          git commit -a -m "Update getSettlementAreas.xml"
+           bb warehouse-types
+           git add data/AddressGeneral/getWarehouseTypes.xml
+           git commit -a -m "Update getWarehouseTypes.xml"
       
-      - name: bb settlements
+      - name: bb waregouses
         run: |
-          bb settlements
-          git add data/AddressGeneral/getSettlements.xml
-          git commit -a -m "Update getSettlements.xml"
-      
+           bb warehouse-types
+           git add data/AddressGeneral/getWarehouses.xml
+           git commit -a -m "Update getWarehouses.xml"
+
       - name: check if changes
         run: |
           git diff  --quiet && echo "Nothing changes" && exit 0;

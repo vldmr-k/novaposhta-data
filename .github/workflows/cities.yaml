@@ -1,7 +1,7 @@
 on:
   schedule:
     # every 7 days
-    - cron: "0 0 */7 * *"
+    - cron: "0 2 */7 * *"
 
 jobs:
   import_cities:
@@ -27,6 +27,10 @@ jobs:
             git config --local user.name "github-actions[bot]"
             git add data/AddressGeneral/getCities.xml
             git commit -a -m "Update getCities.xml"
+      
+      - name: check if changes
+        run: |
+          git diff  --quiet && echo "Nothing changes" && exit 0;
 
       - name: Push changes
         uses: ad-m/github-push-action@master
