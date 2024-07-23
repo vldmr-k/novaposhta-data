@@ -2,3 +2,5 @@
 .clj-kondo
 .lsp
 .cpcache
+.idea
+.DS_Store
